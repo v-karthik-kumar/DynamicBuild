@@ -1,0 +1,64 @@
+version: 0.2
+
+
+phases:
+  install:
+    # runtime-versions:
+    #   docker: 18
+    commands:
+      - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2 &
+      - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
+  pre_build:
+    commands:
+      # - echo Logging in to Amazon ECR...
+      # - aws --version
+      # - newimagename=rocket-ai
+      # - AWS_DEFAULT_REGION=ap-south-1
+      - TAG="$(date +%Y_%m_%d_%H_%M_%S).$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
+      # - echo $AWS_DEFAULT_REGION
+      # - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 933661958818.dkr.ecr.ap-south-1.amazonaws.com    
+      # - REPOSITORY_URI=933661958818.dkr.ecr.ap-south-1.amazonaws.com/homework-sheets 
+      - ls -al
+      # - sed -i 's@CONTAINER_IMAGE@'"$REPOSITORY_URI:$newimagename-$TAG"'@' ./k8s/fastapi-de-automation-dev.yaml
+      # - cat ./k8s/fastapi-de-automation-dev.yaml
+  build:
+    commands:
+      - echo Build started on `date`
+      - newimagename=rl-branch-test
+      - docker images
+      - docker build -t  $newimagename:$TAG .
+      - docker images
+      # - docker tag $newimagename:$TAG $REPOSITORY_URI:$newimagename-$TAG
+      # - echo After Tagging the latest image
+      # - docker images
+  # post_build:
+  #   commands:
+  #     - echo Build completed on `date`
+  #     - echo Pushing the Docker image...
+  #     - docker push $REPOSITORY_URI:$newimagename-$TAG
+  #     - echo Writing image definition file...
+  #     - aws eks update-kubeconfig --name homework-sheets-prod --region ap-south-1
+  #     - aws --version
+  #     #- aws sts assume-role --role-arn arn:aws:iam::933661958818:role/service-role/codebuild-rl-homeworks-sheet-prod-test-service-role --role-session-name  bhanu.p@cloudthat.com --duration-seconds 900
+  #     - CREDENTIALS=$(aws sts assume-role --role-arn arn:aws:iam::933661958818:role/service-role/codebuild-fastapi-de-automation-dev-service-role --role-session-name bhanu.p@cloudthat.com --duration-seconds 900)
+  #     - export AWS_ACCESS_KEY_ID="$(echo ${CREDENTIALS} | jq -r '.Credentials.AccessKeyId')"
+  #     - export AWS_SECRET_ACCESS_KEY="$(echo ${CREDENTIALS} | jq -r '.Credentials.SecretAccessKey')"
+  #     - export AWS_SESSION_TOKEN="$(echo ${CREDENTIALS} | jq -r '.Credentials.SessionToken')"
+  #     - export AWS_EXPIRATION=$(echo ${CREDENTIALS} | jq -r '.Credentials.Expiration')
+  #     - kubectl config current-context 
+  #     - echo "Apply changes to kube manifests"  
+  #     - kubectl get ns 
+  #     - cd k8s
+  #     - ls
+  #     - kubectl get all -n de-automation
+  #     # - kubectl apply -f fastapi-de-automation-dev.yaml
+
+  #     # - STATUS=$(kubectl get deployment fastapi-pix2seq -o jsonpath='{.status.conditions[0].type}')
+
+  #     # - echo $STATUS
+  #     # - if [ "$STATUS" != "True" ]; then
+  #     #     echo "Deployment is not available. Rolling back to previous state...";
+  #     #   fi
+
+artifacts:
+  files: imagedefinitions.json
