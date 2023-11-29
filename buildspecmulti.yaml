@@ -12,9 +12,11 @@ phases:
   post_build:
     commands:
       - echo "Post build steps..."
+      - echo $BRANCH_NAME
+      - if [ "$BRANCH_NAME" = "main" ]; then
+           echo "Building for main branch";
+           echo Build started on `date`
+           newimagename=rl-branch-test-main
+           echo $newimagename
+        fi
 
-if [ "$BRANCH_NAME" == "master" ]: then
-  post_build:
-    commands:
-      - echo "Deploying to production..."
-fi
