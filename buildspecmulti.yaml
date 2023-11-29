@@ -12,15 +12,14 @@ phases:
         fi
       - if [ "$BRANCH_NAME" = "main" ]; then
           echo "Building for main branch";
-          # Add your main branch build commands here
-	  echo Build started on `date`
+	        echo Build started on `date`
           newimagename=rl-branch-test-main
           echo $newimagename
         fi
 
   build:
     commands:
-      # Add your common build commands here
+      
 
 artifacts:
   files: imagedefinitions.json
