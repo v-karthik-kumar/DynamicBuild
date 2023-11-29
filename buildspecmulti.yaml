@@ -11,10 +11,10 @@ phases:
           echo $newimagename
         fi
       - if [ "$BRANCH_NAME" = "main" ]; then
-          echo "Building for main branch";
-	        echo Build started on `date`
-          newimagename=rl-branch-test-main
-          echo $newimagename
+           echo "Building for main branch";
+           echo Build started on `date`
+           newimagename=rl-branch-test-main
+           echo $newimagename
         fi
 
   build:
