@@ -1,7 +1,7 @@
 version: 0.2
 env:
   variables:
-    BRANCH_NAME: $CODEBUILD_WEBHOOK_TRIGGER
+    BRANCH_NAME: $(git symbolic-ref -q --short HEAD || git describe --tags --exact-match)
 phases:
   install:
     commands:
