@@ -1,0 +1,26 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - BRANCH_NAME=$(git symbolic-ref -q --short HEAD || git describe --tags --exact-match)
+      - if [ "$BRANCH_NAME" = "master" ]; then
+          echo "Building for master branch";
+          echo Build started on `date`
+          newimagename=rl-branch-test-master
+          echo $newimagename
+        fi
+      - if [ "$BRANCH_NAME" = "main" ]; then
+          echo "Building for main branch";
+          # Add your main branch build commands here
+	  echo Build started on `date`
+          newimagename=rl-branch-test-main
+          echo $newimagename
+        fi
+
+  build:
+    commands:
+      # Add your common build commands here
+
+artifacts:
+  files: imagedefinitions.json
