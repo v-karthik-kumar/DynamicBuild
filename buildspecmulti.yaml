@@ -4,18 +4,19 @@ phases:
   pre_build:
     commands:
       - BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
-      - if [ "$BRANCH_NAME" = "master" ]; then
-          echo "Building for master branch";
-          echo Build started on `date`
-          newimagename=rl-branch-test-master
-          echo $newimagename
-        fi
-      - if [ "$BRANCH_NAME" = "main" ]; then
-           echo "Building for main branch";
-           echo Build started on `date`
-           newimagename=rl-branch-test-main
-           echo $newimagename
-        fi
+      - echo $BRANCH_NAME
+      # - if [ "$BRANCH_NAME" = "master" ]; then
+      #     echo "Building for master branch";
+      #     echo Build started on `date`
+      #     newimagename=rl-branch-test-master
+      #     echo $newimagename
+      #   fi
+      # - if [ "$BRANCH_NAME" = "main" ]; then
+      #      echo "Building for main branch";
+      #      echo Build started on `date`
+      #      newimagename=rl-branch-test-main
+      #      echo $newimagename
+      #   fi
 
   build:
     commands:
