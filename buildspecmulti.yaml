@@ -3,7 +3,7 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - BRANCH_NAME=$(git symbolic-ref -q --short HEAD || git describe --tags --exact-match)
+      - BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
       - if [ "$BRANCH_NAME" = "master" ]; then
           echo "Building for master branch";
           echo Build started on `date`
