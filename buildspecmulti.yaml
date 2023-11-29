@@ -1,9 +1,10 @@
 version: 0.2
-
+env:
+  variables:
+    BRANCH_NAME: $CODEBUILD_WEBHOOK_TRIGGER
 phases:
   pre_build:
     commands:
-      - BRANCH_NAME: $CODEBUILD_WEBHOOK_TRIGGER
       - echo $BRANCH_NAME
       # - if [ "$BRANCH_NAME" = "master" ]; then
       #     echo "Building for master branch";
