@@ -3,25 +3,18 @@ env:
   variables:
     BRANCH_NAME: $CODEBUILD_WEBHOOK_TRIGGER
 phases:
-  pre_build:
+  install:
     commands:
-      - echo $BRANCH_NAME
-      # - if [ "$BRANCH_NAME" = "master" ]; then
-      #     echo "Building for master branch";
-      #     echo Build started on `date`
-      #     newimagename=rl-branch-test-master
-      #     echo $newimagename
-      #   fi
-      # - if [ "$BRANCH_NAME" = "main" ]; then
-      #      echo "Building for main branch";
-      #      echo Build started on `date`
-      #      newimagename=rl-branch-test-main
-      #      echo $newimagename
-      #   fi
-
+      - echo "Installing dependencies..."
   build:
     commands:
-      
+      - echo "Building..."
+  post_build:
+    commands:
+      - echo "Post build steps..."
 
-artifacts:
-  files: imagedefinitions.json
+if [ "$BRANCH_NAME" == "master" ]; then
+  post_build:
+    commands:
+      - echo "Deploying to production..."
+fi
