@@ -4,7 +4,7 @@ phases:
   install:
     commands:
       - echo "Installing dependencies..."
-      BRANCH_NAME=$(git symbolic-ref -q --short HEAD || git describe --tags --exact-match)
+      - BRANCH_NAME=$(git symbolic-ref -q --short HEAD || git describe --tags --exact-match)
   build:
     commands:
       - echo "Building..."
