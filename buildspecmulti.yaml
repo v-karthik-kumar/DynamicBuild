@@ -3,19 +3,20 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - BRANCH_NAME=$(git symbolic-ref -q --short HEAD || git describe --tags --exact-match)
-      - if [ "$BRANCH_NAME" = "master" ]; then
-          echo "Building for master branch";
-          echo Build started on `date`
-          newimagename=rl-branch-test-master
-          echo $newimagename
-        fi
-      - if [ "$BRANCH_NAME" = "main" ]; then
-           echo "Building for main branch";
-           echo Build started on `date`
-           newimagename=rl-branch-test-main
-           echo $newimagename
-        fi
+      - BRANCH_NAME=$(git symbolic-ref HEAD --short 2>/dev/null)
+      - echo $BRANCH_NAME
+      # - if [ "$BRANCH_NAME" = "master" ]; then
+      #     echo "Building for master branch";
+      #     echo Build started on `date`
+      #     newimagename=rl-branch-test-master
+      #     echo $newimagename
+      #   fi
+      # - if [ "$BRANCH_NAME" = "main" ]; then
+      #      echo "Building for main branch";
+      #      echo Build started on `date`
+      #      newimagename=rl-branch-test-main
+      #      echo $newimagename
+      #   fi
 
   build:
     commands:
