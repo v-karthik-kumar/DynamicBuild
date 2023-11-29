@@ -13,7 +13,7 @@ phases:
     commands:
       - echo "Post build steps..."
 
-if [ "$BRANCH_NAME" == "master" ]; then
+if [ "$BRANCH_NAME" == "master" ]: then
   post_build:
     commands:
       - echo "Deploying to production..."
