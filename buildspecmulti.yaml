@@ -3,20 +3,12 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - BRANCH_NAME=$(git symbolic-ref HEAD --short 2>/dev/null)
-      - echo $BRANCH_NAME
-      # - if [ "$BRANCH_NAME" = "master" ]; then
-      #     echo "Building for master branch";
-      #     echo Build started on `date`
-      #     newimagename=rl-branch-test-master
-      #     echo $newimagename
-      #   fi
-      # - if [ "$BRANCH_NAME" = "main" ]; then
-      #      echo "Building for main branch";
-      #      echo Build started on `date`
-      #      newimagename=rl-branch-test-main
-      #      echo $newimagename
-      #   fi
+      - | 
+        GIT_BRANCH="$(git symbolic-ref HEAD --short 2>/dev/null)"
+        if [ "$GIT_BRANCH" = "" ] ; then
+          GIT_BRANCH="$(git rev-parse HEAD | xargs git name-rev | cut -d' ' -f2 | sed 's/remotes\/origin\///g')";
+        fi
+      - echo GIT_BRANCH - $GIT_BRANCH
 
   build:
     commands:
