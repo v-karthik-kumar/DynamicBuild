@@ -4,18 +4,18 @@ phases:
   install:
     commands:
       - echo "Installing dependencies..."
-      - BRANCH_NAME=$(git symbolic-ref HEAD --short 2>/dev/null)
+      - GIT_BRANCH="$(git rev-parse HEAD | xargs git name-rev | cut -d' ' -f2 | sed 's/remotes\/origin\///g')";
   build:
     commands:
       - echo "Building..."
   post_build:
     commands:
       - echo "Post build steps..."
-      - echo $BRANCH_NAME
-      - if [ "$BRANCH_NAME" = "main" ]; then
-           echo "Building for main branch";
+      - echo $GIT_BRANCH
+      - if [ "$GIT_BRANCH" = "master" ]; then
+           echo "Building for master branch";
            echo Build started on `date`
-           newimagename=rl-branch-test-main
+           newimagename=rl-branch-test-master
            echo $newimagename
         fi
 
