@@ -1,11 +1,10 @@
 version: 0.2
-env:
-  variables:
-    BRANCH_NAME: $(git symbolic-ref -q --short HEAD || git describe --tags --exact-match)
+
 phases:
   install:
     commands:
       - echo "Installing dependencies..."
+      BRANCH_NAME=$(git symbolic-ref -q --short HEAD || git describe --tags --exact-match)
   build:
     commands:
       - echo "Building..."
