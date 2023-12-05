@@ -15,7 +15,7 @@ phases:
           echo "Building for main branch"
           echo "Build started on $(date)"
           newimagename=rl-branch-test-main
-          echi $newimagename
+          echo $newimagename
         fi
 
 artifacts:
