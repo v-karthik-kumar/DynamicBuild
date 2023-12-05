@@ -24,8 +24,16 @@ phases:
             exit 1
           fi
           ls
+          echo "---------------------------"
           while IFS= read -r LINE || [ -n "$LINE" ]; do
             echo "Line from file: $LINE";
+            echo "---------------------------"
+            cd $LINE
+            ls
+            echo "Contents of text.txt:"
+            cat "text.txt"
+            echo "---------------------------"
+            cd ..
           done < "$text_file"
                     
         fi
