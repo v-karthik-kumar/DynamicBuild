@@ -23,7 +23,9 @@ phases:
             echo "Text file not found at $text_file"
             exit 1
           fi
-          cat file.txt
+          cat text_file
+
+
           
         fi
 
