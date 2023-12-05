@@ -1,0 +1,41 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      docker: 18
+  pre_build:
+    commands:
+      - text_file_path=file.txt
+      # Check if the text file is provided as an argument
+      - |
+        if [ "$#" -ne 1 ]; then
+          echo "Usage: $0 <text_file>";
+          exit 1;
+        fi
+      # Read each line from the text file and perform actions
+      - |
+        while IFS= read -r directory_name; do
+          # Skip empty lines or lines starting with a comment (#)
+          if [[ "$directory_name" == "" || "$directory_name" == \#* ]]; then
+            continue;
+          fi
+          # Print the current directory name
+          echo "Entering directory: $directory_name"
+          # Change to the specified directory
+          cd "$directory_name"
+          # List files in the current directory
+          ls
+          # Print the current working directory
+          pwd
+          # Print contents of text.txt if it exists
+          if [ -f "text.txt" ]; then
+            echo "Contents of text.txt:"
+            cat "text.txt"
+            echo "---------------------------"
+          else
+            echo "text.txt not found in $directory_name"
+          fi
+          # Additional commands to execute within the directory can be added here
+          # Change back to the original directory
+          cd ..
+        done < "$1"
