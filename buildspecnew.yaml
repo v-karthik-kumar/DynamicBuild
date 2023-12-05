@@ -2,30 +2,55 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - text_file="file.txt"
-      - |
-        if [ ! -f "$text_file" ]; then
-          echo "Text file not found at $text_file"
-          exit 1
-        fi
-      - ls
-      - echo "---------------------------"
-      - |
-        while IFS= read -r LINE || [ -n "$LINE" ]; do
-          echo "Line from file: $LINE";
-          echo "---------------------------"
-          echo "---------------------------"
-          cd $LINE
-          echo "Contents of text.txt:"
-          cat "text.txt"
-          aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 933661958818.dkr.ecr.ap-south-1.amazonaws.com
-          TAG="$(date +%Y_%m_%d_%H_%M_%S).$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
- #         REPOSITORY_URI=933661958818.dkr.ecr.ap-south-1.amazonaws.com/rl-hybrid-backend
- #         docker build -t $LINE .
- #         docker images
- #         docker tag $LINE:$TAG $REPOSITORY_URI:$LINE-$TAG
- #         docker push $REPOSITORY_URI:$LINE-$TAG
-          echo "---------------------------"
-          echo "---------------------------"
-          cd ..
-        done < "$text_file"
+      - git diff --name-only $CODEBUILD_SOURCE_VERSION $CODEBUILD_RESOLVED_SOURCE_VERSION | xargs -I {} dirname {} | sort -u > changed_folders.txt
+  build:
+    commands:
+      - cat changed_folders.txt
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#   pre_build:
+#     commands:
+#       - text_file="file.txt"
+#       - |
+#         if [ ! -f "$text_file" ]; then
+#           echo "Text file not found at $text_file"
+#           exit 1
+#         fi
+#       - ls
+#       - echo "---------------------------"
+#       - |
+#         while IFS= read -r LINE || [ -n "$LINE" ]; do
+#           echo "Line from file: $LINE";
+#           echo "---------------------------"
+#           echo "---------------------------"
+#           cd $LINE
+#           echo "Contents of text.txt:"
+#           cat "text.txt"
+#           aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 933661958818.dkr.ecr.ap-south-1.amazonaws.com
+#           TAG="$(date +%Y_%m_%d_%H_%M_%S).$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
+#  #         REPOSITORY_URI=933661958818.dkr.ecr.ap-south-1.amazonaws.com/rl-hybrid-backend
+#  #         docker build -t $LINE .
+#  #         docker images
+#  #         docker tag $LINE:$TAG $REPOSITORY_URI:$LINE-$TAG
+#  #         docker push $REPOSITORY_URI:$LINE-$TAG
+#           echo "---------------------------"
+#           echo "---------------------------"
+#           cd ..
+#         done < "$text_file"
