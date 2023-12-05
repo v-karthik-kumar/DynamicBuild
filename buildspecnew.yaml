@@ -18,7 +18,13 @@ phases:
           cd $LINE
           echo "Contents of text.txt:"
           cat "text.txt"
-          docker build -t $LINE .
+          aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 933661958818.dkr.ecr.ap-south-1.amazonaws.com
+          TAG="$(date +%Y_%m_%d_%H_%M_%S).$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
+ #         REPOSITORY_URI=933661958818.dkr.ecr.ap-south-1.amazonaws.com/rl-hybrid-backend
+ #         docker build -t $LINE .
+ #         docker images
+ #         docker tag $LINE:$TAG $REPOSITORY_URI:$LINE-$TAG
+ #         docker push $REPOSITORY_URI:$LINE-$TAG
           echo "---------------------------"
           echo "---------------------------"
           cd ..
