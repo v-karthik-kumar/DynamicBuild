@@ -23,6 +23,10 @@ phases:
             echo "Text file not found at $text_file"
             exit 1
           fi
+          ls
+          while IFS= read -r LINE || [ -n "$LINE" ]; do
+            echo "Line from file: $LINE";
+          done < "$text_file"
                     
         fi
 
