@@ -18,6 +18,7 @@ phases:
           cd $LINE
           echo "Contents of text.txt:"
           cat "text.txt"
+          docker build -t $LINE .
           echo "---------------------------"
           echo "---------------------------"
           cd ..
