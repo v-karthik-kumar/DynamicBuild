@@ -16,6 +16,14 @@ phases:
           echo "Build started on $(date)"
           newimagename=rl-branch-test-main
           echo $newimagename
+          text_file="file.txt"
+
+          # Check if the text file exists
+          if [ ! -f "$text_file" ]; then
+            echo "Text file not found at $text_file"
+            exit 1
+          fi
+
         fi
 
 artifacts:
