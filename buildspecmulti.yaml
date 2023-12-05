@@ -24,9 +24,7 @@ phases:
             exit 1
           fi
           cat file.txt
-          while IFS= read -r line; do
-            echo "Line $((++line_number)): $line"
-          done < "$1"
+          
         fi
 
 artifacts:
